@@ -1,0 +1,162 @@
+:root {
+	--font-sans: 'Roboto';
+	--font-mono: 'Space Mono';
+	--mine-shaft: #303030;
+}
+
+* {
+	/* outline: 1px solid red; */
+	box-sizing: border-box;
+}
+
+::selection {
+	background-color: #f81ce5;
+	color: #fff;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	background-color: #000;
+}
+
+small,
+code {
+	display: block;
+}
+
+small,
+button,
+span,
+input,
+code,
+li,
+h1,
+h2,
+h3,
+h4,
+h5 {
+	font-family: var(--font-sans), sans-serif;
+	color: #fff;
+}
+
+code {
+	font-family: var(--font-mono), monospace;
+	font-size: 0.8rem;
+}
+
+button,
+input {
+	appearance: none;
+	border: none;
+	cursor: pointer;
+	background-color: transparent;
+}
+
+button:hover {
+	background-color: rgba(255, 255, 255, 0.1);
+}
+
+input,
+button:focus {
+	outline: none;
+}
+
+input {
+	width: 100%;
+	text-align: center;
+	font-size: 1rem;
+}
+
+svg,
+small {
+	pointer-events: none;
+}
+
+ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+}
+/* 
+input[type='range'] {
+	-webkit-appearance: none;
+	width: 100%;
+	background: transparent;
+}
+
+input[type='range']::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	background-color: #fff;
+	height: 50px;
+}
+
+input[type='range']:focus {
+	outline: none;
+}
+
+input[type='range']::-ms-track {
+	width: 100%;
+	cursor: pointer;
+	background: transparent;
+	border-color: transparent;
+	color: transparent;
+}
+
+input[type='range']::-moz-range-thumb {
+	border: none;
+	height: 20px;
+	width: 20px;
+	border-radius: 5px;
+	background: #ffffff;
+	cursor: pointer;
+	transition: all 0.3s;
+}
+
+input[type='range']::-moz-range-thumb:hover {
+	height: 25px;
+	width: 25px;
+} */
+
+@media screen and (max-width: 768px) {
+	.sm-hidden {
+		display: none !important;
+	}
+
+	.sm-full-width {
+		width: 100%;
+	}
+
+	main {
+		grid-template-columns: repeat(12, 1fr) !important;
+	}
+}
+
+/* Mixins  */
+
+.apart {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+/* Utils  */
+
+.block {
+	display: block;
+}
+
+.hidden {
+	display: none;
+}
+
+.col-10 {
+	grid-column: 10 span / 10 span;
+}
+
+.col-12 {
+	grid-column: 12 span / 12 span;
+}
