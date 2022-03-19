@@ -28,12 +28,14 @@
 			slot="main"
 			bind:value={$preview.query}
 			on:keyup={handleSearch}
-			type="search"
+			type="text"
 			placeholder="Search Fonts"
 		/>
 
 		{#if $preview.query}
 			<button
+				class="rounded"
+				type="button"
 				on:click={() => {
 					preview.update((value) => ({ ...value, query: '' }));
 					goto('/');
@@ -41,6 +43,8 @@
 			>
 				<Hero icon="X" />
 			</button>
+		{:else}
+			<div />
 		{/if}
 	</Wrapper>
 
@@ -49,18 +53,34 @@
 	</Wrapper>
 
 	<Wrapper className="sm-hidden">
-		<small name="left"> {$preview.fontSize}px </small>
+		<small slot="left"> {$preview.fontSize}px </small>
 		<input slot="main" type="range" bind:value={$preview.fontSize} min="25" max="50" />
 	</Wrapper>
+
+	<button
+		class="rounded sm-hidden"
+		type="button"
+		on:click={() => {
+			preview.set({
+				customText: '',
+				fontSize: 32,
+				query: ''
+			});
+			goto('/');
+		}}
+	>
+		<Hero icon="Refresh" />
+	</button>
 </header>
 
 <style>
 	header {
 		margin-bottom: 1rem;
-		gap: 2%;
 		position: sticky;
 		top: 0;
-		background-color: #303030;
 		z-index: 10;
+		background-color: var(--bg);
+		padding: 0.7rem;
+		border-bottom: 1px solid var(--border);
 	}
 </style>

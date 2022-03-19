@@ -18,7 +18,6 @@
 
 	span {
 		grid-column: 1 span / 1 span;
-		color: #fff;
 		padding: 1rem;
 		font-size: 2rem;
 		transition: all 0.2s;

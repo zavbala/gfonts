@@ -21,6 +21,18 @@ export interface FamilyTree {
 	[family: string]: string[];
 }
 
+export interface Family {
+	name: string;
+	styles: string[];
+}
+
+export interface Item {
+	[key: string]: {
+		italic: string[];
+		normal: string[];
+	};
+}
+
 export type Style = [string, number, 'Italic' | ''];
 
 export type Icons =
@@ -28,8 +40,10 @@ export type Icons =
 	| 'Search'
 	| 'Plus'
 	| 'Sun'
+	| 'Moon'
 	| 'Grid'
 	| 'Minus'
 	| 'ChevronDown'
 	| 'ChevronUp'
+	| 'Refresh'
 	| 'Duplicate';

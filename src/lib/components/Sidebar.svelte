@@ -2,105 +2,122 @@
 	import Hero from '$lib/components/Hero.svelte';
 	import { family } from '$lib/stores/family';
 	import { toggle, settings } from '$lib/stores/settings';
-	import { formatStyle, formatSource } from '$lib/utils';
-	import { goto } from '$app/navigation';
-	import { slide } from 'svelte/transition';
-
-	const googleapis = `<link rel="preconnect" href="https://fonts.googleapis.com">`;
-	const gstatic = `<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>`;
+	import { formatSource } from '$lib/utils';
+	import Review from './Review.svelte';
+	import { fly } from 'svelte/transition';
+	import { googleapis, gstatic } from '$lib/constant';
 
 	$: source = formatSource($family);
-	let active = '0';
 
-	const clipboard = () => {
-		const data = [googleapis, gstatic, source];
-		navigator.clipboard.writeText(data.join('\n'));
+	let active = '0';
+	let embed = 'HTML';
+
+	const copyURL = () => {
+		const data = [googleapis, gstatic, `<link href=${source} rel="stylesheet"> `];
+		const url = `<style> @import url('${source}') </style>`;
+
+		navigator.clipboard.writeText(embed === 'HTML' ? data.join('\n') : url);
+	};
+
+	const copyCSSFamilies = () => {
+		navigator.clipboard.writeText('');
 	};
 
 	const expandList = (event: Event) => {
 		active = (event.target as HTMLElement).id;
 	};
-
-	const handleItem = (event: Event) => {
-		const [id, name] = (event.target as HTMLElement).id.split(':');
-		family.remove([name, id]);
-	};
 </script>
 
-<aside class:col-3={$settings.isSidebarOpen}>
-	<div class="apart">
+<aside transition:fly class:col-3={$settings.isSidebarOpen}>
+	<div class="apart border-b">
 		<h3>Selected Family</h3>
-		<button on:click={() => toggle()}>
+
+		<button class="rounded" on:click={() => toggle('isSidebarOpen')}>
 			<Hero icon="X" />
 		</button>
 	</div>
 
 	{#if !Object.keys($family)?.length}
-		<small> You don’t have any fonts yet. Choose a font to get started. </small>
+		<div class="center f-column">
+			<span> ¯\_( )_/¯ </span>
+
+			<small class="text-center">
+				You don’t have any fonts yet. Choose a font to get started.
+			</small>
+		</div>
 	{:else}
+		<section>
+			{#each Object.entries($family) as [familyName, styles], index}
+				{@const expandable = active == String(index)}
+
+				{#if styles.length}
+					<Review {expandList} {index} {expandable} {familyName} {styles} />
+				{/if}
+			{/each}
+		</section>
+
+		<!-- <div class="apart">
+			<select bind:value={embed}>
+				<option value="HTML"> HTML </option>
+				<option value="CSS"> CSS </option>
+			</select>
+
+			<Hero icon="ChevronDown" />
+		</div> -->
+
+		<!-- <div class="apart">
+			<label for="HTML">
+				HTML
+				<input id="HTML" type="checkbox" checked />
+			</label>
+
+			<label for="CSS">
+				<input id="CSS" type="checkbox" />
+			</label>
+		</div> -->
+
 		<code class="apart">
-			{source}
-			<button on:click={clipboard}>
+			{#if embed === 'HTML'}
+				{'<link>'}
+			{:else}
+				@import
+			{/if}
+
+			<button class="rounded" on:click={copyURL}>
 				<Hero icon="Duplicate" />
 			</button>
 		</code>
 
-		<section>
-			{#each Object.entries($family) as [name, styles], index}
-				{@const expandable = active == String(index)}
-				{#if styles.length}
-					<ul>
-						<li class="apart">
-							{name}
-							<button id={String(index)} on:click={expandList}>
-								<Hero icon={expandable ? 'ChevronUp' : 'ChevronDown'} />
-							</button>
-						</li>
+		<code class="apart">
+			font-family:
 
-						{#if expandable}
-							<div
-								transition:slide={{ duration: 300 }}
-								style="width: 100%;"
-								class={expandable ? 'block' : 'hidden'}
-							>
-								{#each styles as style, index}
-									<li class="apart">
-										{formatStyle(String(style)).join(' ')}
-										<button id={String(index) + ':' + name} on:click={handleItem}>
-											<Hero icon="Minus" />
-										</button>
-									</li>
-								{/each}
-								<li class="apart">
-									<button on:click={() => goto(`/specimen/${name.split(' ').join('-')}`)}>
-										Add more styles
-									</button>
-									<button on:click={() => family.restore(name)}> Remove all </button>
-								</li>
-							</div>
-						{/if}
-					</ul>
-				{/if}
-			{/each}
-		</section>
+			<button class="rounded" on:click={copyCSSFamilies}>
+				<Hero icon="Duplicate" />
+			</button>
+		</code>
 	{/if}
+
+	<a href="https://github.com/zavbala/gtfont" target="_blank"> GitHub </a>
 </aside>
 
 <style>
 	aside {
 		height: 100vh;
-		padding: 1rem;
+		padding: 0.7rem;
 		width: calc(1024px / 4);
 		position: fixed;
 		top: 0;
 		right: 0;
 		z-index: 20;
-		background-color: var(--mine-shaft);
+		border-left: 1px solid gray;
+		background-color: var(--bg);
+		display: flex;
+		justify-content: space-between;
+		flex-direction: column;
 	}
 
 	section {
-		flex-direction: column;
-		height: 90%;
+		height: 50%;
 		overflow-y: hidden;
 	}
 
@@ -108,35 +125,35 @@
 		overflow-y: auto;
 	}
 
-	button {
-		border-radius: 3px;
-		padding: 0.2rem 0.4rem;
-		display: flex;
-		align-items: center;
-		justify-content: center;
+	span {
+		font-size: 3rem;
+		margin-bottom: 0.5rem;
 	}
 
-	ul {
-		flex-direction: column;
-		border: 1px solid #fff;
-		margin-bottom: 1rem;
-		border-radius: 3px;
+	a {
+		font-size: 1rem;
+		text-align: center;
+		border-radius: 5px;
+		border: 2px solid var(--thumb);
+		padding: 0.5rem;
+		color: var(--thumb);
 	}
 
-	li {
-		width: 100%;
+	a:hover {
+		background-color: var(--hover);
+	}
+
+	/* select {
+		border: 1px solid var(--border);
+		margin-bottom: 0.5rem;
 		padding: 0.7rem;
-	}
+		border-radius: 999px;
+	} */
 
 	code {
-		display: block;
 		border-radius: 3px;
-		background-color: blue;
-		padding: 0.8rem;
+		background-color: var(--code);
+		padding: 0.7rem;
 		width: 100%;
-		margin-bottom: 1rem;
-	}
-
-	@media screen and (max-width: 640px) {
 	}
 </style>

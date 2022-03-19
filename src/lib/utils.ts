@@ -1,5 +1,5 @@
 import { STYLES, G_FONTS_API } from '$lib/constant';
-import type { FamilyTree, Style } from '$lib/types';
+import type { FamilyTree, Style, Family, Item } from '$lib/types';
 
 export const formatStyle = (weight: string): Style => {
 	const array = weight.split('');
@@ -9,43 +9,81 @@ export const formatStyle = (weight: string): Style => {
 	return [STYLES[integer], integer, isItalic ? 'Italic' : ''];
 };
 
-export const formatSource = (tree: FamilyTree): string => {
-	const params = [];
+export const setPrefix = (family: Family) => {
+	const { name, styles } = family;
+	const sources = [[], []];
+	let familyName = name;
 
-	Object.entries(tree).map(([family, styles]) => {
-		const children = {
-			italic: [],
-			normal: []
-		};
+	if (name.split(' ').length > 1) {
+		familyName = name.split(' ').join('+');
+	}
 
-		if (family.split(' ').length > 1) {
-			family = family.split(' ').join('+');
+	for (const style of styles) {
+		const [, weight, italic] = formatStyle(style);
+		const isItalic = italic === 'Italic';
+		const child = `${isItalic ? 1 : 0},${weight}`;
+
+		if (isItalic) {
+			sources[0].push(child);
+		} else {
+			sources[1].push(child);
 		}
+	}
 
-		for (const style of styles) {
-			const [, weight, italic] = formatStyle(style);
-			const isItalic = italic === 'Italic';
-			const child = `${isItalic ? 1 : 0},${weight}`;
+	const [italic, normal] = sources;
 
-			if (isItalic) {
-				children.italic.push(child);
-			} else {
-				children.normal.push(child);
+	return {
+		[familyName]: {
+			italic: italic.sort(),
+			normal: normal.sort()
+		}
+	};
+};
+
+export const formatSource = (tree: FamilyTree) => {
+	const query = [];
+	const families: Item[] = [];
+
+	Object.entries(tree).forEach(([name, styles]) => {
+		families.push(setPrefix({ name, styles }));
+	});
+
+	for (const family of families) {
+		const [[key, value]] = Object.entries(family);
+		const { italic, normal } = value;
+
+		const italicSources = italic.length >= 1;
+		const regular = normal.includes('0,400');
+		const regularItalic = italic.includes('1,400');
+
+		let flag = true;
+
+		if (regular || regularItalic) {
+			if (normal.length === 1 && italic.length === 1) {
+				query.push(`family=${key}:ital@0;1`);
+				flag = false;
+			}
+			if (normal.length === 1 && !italic.length) {
+				query.push(`family=${key}`);
+				flag = false;
+			}
+			if (italic.length === 1 && !normal.length) {
+				query.push(`family=${key}:ital@1`);
+				flag = false;
 			}
 		}
 
-		const italicSources = children.italic.length >= 1;
+		if (flag) {
+			query.push(
+				`family=${key}` +
+					`:${italicSources ? 'ital,' : ''}wght@` +
+					(italicSources
+						? normal.join(';')
+						: normal.map((item) => `${item.split(',')[1]}`).join(';')) +
+					`${italicSources ? ';' + italic.join(';') : ''}`
+			);
+		}
+	}
 
-		const query =
-			`family=${family}` +
-			`:${italicSources ? 'ital,' : ''}wght@` +
-			children['normal'].join(';') +
-			`${italicSources ? ';' + children.italic.join(';') : ''}`;
-
-		params.push(query);
-	});
-
-	params.push('display=swap');
-
-	return `<link href="${G_FONTS_API + '/css2?' + params.join('&')}" rel="stylesheet">`;
+	return `${G_FONTS_API + '/css2?' + [...query, 'display=swap'].join('&')}`;
 };

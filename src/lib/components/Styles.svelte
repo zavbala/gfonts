@@ -43,14 +43,12 @@
 
 	div {
 		padding: 1rem;
-		border-bottom: 1px solid gray;
+		border-bottom: 1px solid var(--border);
 		grid-column: 1 span / 1 span;
 	}
 
 	div:hover > button {
 		opacity: 1;
-		background-color: rgba();
-		border-color: #fff;
 	}
 
 	span {
@@ -59,15 +57,18 @@
 
 	button {
 		padding: 0.5rem 0.3rem;
-		display: flex;
 		border-radius: 3px;
+		display: flex;
 		align-items: center;
+		justify-content: space-around;
 		width: 10rem;
 		height: 2rem;
-		justify-content: space-around;
 		opacity: 0;
 		transition: all 0.2s;
-		border: 2px solid;
+	}
+
+	small {
+		font-weight: 500;
 	}
 
 	@media screen and (max-width: 768px) {

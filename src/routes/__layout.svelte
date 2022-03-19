@@ -6,11 +6,27 @@
 	import { settings, toggle } from '$lib/stores/settings';
 </script>
 
+<svelte:head>
+	<!-- <meta name="color-scheme" content="dark" /> -->
+	<link rel="stylesheet" href={`/themes/${$settings.darkMode ? 'dark' : 'light'}.css`} />
+</svelte:head>
+
 <main>
 	<div class={$settings.isSidebarOpen ? 'col-10' : 'col-12'}>
-		<nav class="apart">
+		<nav>
 			<h1 on:click={() => goto('/')}>GTFont</h1>
-			<button on:click={() => toggle()}> <Hero icon="Grid" /> </button>
+
+			<div id="actions">
+				<button on:click={() => toggle('isSidebarOpen')}> <Hero icon="Grid" /> </button>
+
+				<button on:click={() => toggle('darkMode')}>
+					{#if $settings.darkMode}
+						<Hero icon="Sun" />
+					{:else}
+						<Hero icon="Moon" />
+					{/if}
+				</button>
+			</div>
 		</nav>
 
 		<slot />
@@ -23,22 +39,31 @@
 
 <style>
 	main {
-		display: grid;
-		grid-template-columns: repeat(12, 1fr);
-		gap: 3%;
 		max-width: 1024px;
 		margin: auto;
+		display: grid;
+		grid-template-columns: repeat(12, 1fr);
+		transition: all 0.2s;
+	}
+
+	#actions {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		flex-direction: row;
 	}
 
 	div {
 		display: flex;
 		flex-direction: column;
-		transition: all 0.2s;
 	}
 
 	nav {
 		height: 15vh;
 		margin-bottom: 1rem;
+		display: flex;
+		align-items: center;
+		justify-content: space-around;
 	}
 
 	button {
@@ -54,8 +79,8 @@
 	}
 
 	@media screen and (max-width: 1024px) {
-		nav {
+		/* nav {
 			justify-content: space-around;
-		}
+		} */
 	}
 </style>

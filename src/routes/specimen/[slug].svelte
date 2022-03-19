@@ -56,7 +56,6 @@
 <style>
 	h1 {
 		font-size: 8rem;
-		color: #fff;
 		font-family: var(--font-family);
 		text-align: center;
 	}

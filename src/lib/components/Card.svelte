@@ -1,8 +1,10 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { G_FONTS_API } from '$lib/constant';
-	import type { Font, Specimen } from '$lib/types';
+	import type { Specimen } from '$lib/types';
 	import { preview } from '$lib/stores/preview';
+	// import { fade } from 'svelte/transition';
+	// import { settings } from '$lib/stores/settings';
 
 	export let specimen: Specimen;
 
@@ -42,7 +44,7 @@
 <style>
 	div {
 		grid-column: 1 span / 1 span;
-		border: 1px solid gray;
+		border: 1px solid var(--border);
 		padding: 1rem;
 		cursor: pointer;
 		color: #fff;
@@ -60,7 +62,7 @@
 	p {
 		font-family: var(--font-family);
 		font-size: var(--font-size);
-		word-break: normal;
+		word-break: break-word;
 	}
 
 	small,
@@ -76,7 +78,7 @@
 	}
 
 	div:hover {
-		background-color: rgba(255, 255, 255, 0.1);
+		background-color: var(--hover);
 	}
 
 	@media screen and (max-width: 640px) {

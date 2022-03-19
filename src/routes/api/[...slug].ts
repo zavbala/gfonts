@@ -1,6 +1,6 @@
 import type { RequestEvent } from '@sveltejs/kit';
-import FontsJSON from '../../../static/fonts.json';
-import fs from 'fs';
+import FontsJSON from '$lib/data/fonts.json';
+// import fs from 'fs';
 
 const OFFSET = 12;
 
@@ -49,12 +49,12 @@ export const get = async (event: RequestEvent) => {
 	if (fontId) {
 		const splitByHyphen = fontId.split('-');
 		const family = splitByHyphen.length > 1 ? splitByHyphen.join(' ') : fontId;
-		const filteredByID = entry.filter((font) => font.family === family);
+		const [filteredByID] = entry.filter((font) => font.family === family);
 
-		if (filteredByID.length) {
+		if (filteredByID) {
 			return {
 				body: {
-					...filteredByID[0]
+					...filteredByID
 				}
 			};
 		} else {
@@ -67,11 +67,11 @@ export const get = async (event: RequestEvent) => {
 		}
 	}
 
-	const { mtime } = fs.statSync('./static/fonts.json');
+	// const { mtime } = fs.statSync('./static/fonts.json');
 
 	return {
 		body: {
-			last_update: mtime,
+			// last_update: mtime,
 			items: entry.slice(...bounds),
 			pages: Math.floor(entry.length / OFFSET)
 		}

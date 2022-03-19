@@ -1,6 +1,7 @@
 import { writable } from 'svelte/store';
 import type { Writable } from 'svelte/store';
 import type { FamilyTree } from '$lib/types';
+// import { browser } from '$app/env';
 
 type Node = [string, number];
 
@@ -8,6 +9,8 @@ type FamilyStore = {
 	subscribe: Writable<FamilyTree>['subscribe'];
 	[fn: string]: (any) => void;
 };
+
+// const stored = browser && JSON.parse(window.localStorage.getItem('families') || JSON.stringify({}));
 
 const { subscribe, update } = writable({});
 
@@ -32,6 +35,8 @@ const createFamily = (): FamilyStore => {
 				};
 			});
 		},
+
+		// remove one style
 		remove: (node: Node) => {
 			const [variant, index] = node;
 
@@ -39,12 +44,23 @@ const createFamily = (): FamilyStore => {
 				const styles = value[variant];
 				styles.splice(index, 1);
 
+				if (!styles.length) {
+					const copy = value;
+					delete copy[variant];
+
+					return {
+						...copy
+					};
+				}
+
 				return {
 					...value,
 					[variant]: [...styles]
 				};
 			});
 		},
+
+		// remove all styles
 		restore: (variant: string) => {
 			update((value) => {
 				const copy = value;

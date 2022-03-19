@@ -5,7 +5,7 @@
 		const { searchParams } = url;
 		const query = searchParams.get('query');
 
-		const endpoint = '/api/fonts' + (query ? `?query=${query}` : '?page=1');
+		const endpoint = 'api/fonts' + (query ? `?query=${query}` : '?page=1');
 
 		const response = await fetch(endpoint);
 		const data = await response.json();
@@ -34,7 +34,7 @@
 	export let searching;
 
 	const fetcher = async () => {
-		const response = await fetch(URI + `?page=${page}`);
+		const response = await fetch(URI + '/api/fonts' + `?page=${page}`);
 
 		if (response.ok) {
 			const data = await response.json();
@@ -73,7 +73,7 @@
 			{/key}
 		{/each}
 	{:else}
-		<div>
+		<div class="center">
 			<h1>(·_·)</h1>
 			<button
 				on:click={() => {
@@ -97,9 +97,6 @@
 	div {
 		width: 100%;
 		grid-column: 3 span / 3 span;
-		display: flex;
-		align-items: center;
-		justify-content: center;
 		flex-direction: column;
 	}
 
@@ -108,9 +105,11 @@
 	}
 
 	button {
-		border-radius: 3px;
-		border: 2px solid #fff;
+		border-radius: 5px;
+		border: 1px solid var(--thumb);
 		padding: 0.8rem;
+		color: var(--thumb);
+		font-weight: 500;
 	}
 
 	@media screen and (max-width: 768px) {

@@ -1,13 +1,22 @@
 import { writable } from 'svelte/store';
+import { browser } from '$app/env';
 
 const initValues = {
-	isSidebarOpen: false
+	isSidebarOpen: false,
+	darkMode: false
 };
 
-export const settings = writable(initValues);
+const stored =
+	browser && JSON.parse(window.localStorage.getItem('settings') || JSON.stringify(initValues));
 
-export const toggle = () => {
+export const settings = writable(stored);
+
+settings.subscribe((value) => {
+	if (browser) return (window.localStorage.settings = JSON.stringify(value));
+});
+
+export const toggle = (key: string) => {
 	settings.update((value) => {
-		return { ...value, isSidebarOpen: !value.isSidebarOpen };
+		return { ...value, [key]: !value[key] };
 	});
 };
