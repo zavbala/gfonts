@@ -1,11 +1,11 @@
 <script lang="ts">
 	import Hero from '$lib/components/Hero.svelte';
-	import { family } from '$lib/stores/family';
-	import { toggle, settings } from '$lib/stores/settings';
-	import { formatSource } from '$lib/utils';
-	import Review from './Review.svelte';
-	import { fly } from 'svelte/transition';
 	import { googleapis, gstatic } from '$lib/constant';
+	import { family } from '$lib/stores/family';
+	import { settings, toggle } from '$lib/stores/settings';
+	import { formatSource } from '$lib/utils';
+	import { fly } from 'svelte/transition';
+	import Review from './Review.svelte';
 
 	$: source = formatSource($family);
 
@@ -15,7 +15,6 @@
 	const copyURL = () => {
 		const data = [googleapis, gstatic, `<link href=${source} rel="stylesheet"> `];
 		const url = `<style> @import url('${source}') </style>`;
-
 		navigator.clipboard.writeText(embed === 'HTML' ? data.join('\n') : url);
 	};
 
@@ -32,7 +31,7 @@
 	<div class="apart border-b">
 		<h3>Selected Family</h3>
 
-		<button class="rounded" on:click={() => toggle('isSidebarOpen')}>
+		<button class="rounded center" on:click={() => toggle('isSidebarOpen')}>
 			<Hero icon="X" />
 		</button>
 	</div>
@@ -56,25 +55,17 @@
 			{/each}
 		</section>
 
-		<!-- <div class="apart">
-			<select bind:value={embed}>
-				<option value="HTML"> HTML </option>
-				<option value="CSS"> CSS </option>
-			</select>
+		<div class="around">
+			<div class="around">
+				<input type="radio" bind:group={embed} value="HTML" />
+				<small> {'<link>'} </small>
+			</div>
 
-			<Hero icon="ChevronDown" />
-		</div> -->
-
-		<!-- <div class="apart">
-			<label for="HTML">
-				HTML
-				<input id="HTML" type="checkbox" checked />
-			</label>
-
-			<label for="CSS">
-				<input id="CSS" type="checkbox" />
-			</label>
-		</div> -->
+			<div class="around">
+				<input type="radio" bind:group={embed} value="CSS" />
+				<small> {'@import'} </small>
+			</div>
+		</div>
 
 		<code class="apart">
 			{#if embed === 'HTML'}
@@ -83,7 +74,7 @@
 				@import
 			{/if}
 
-			<button class="rounded" on:click={copyURL}>
+			<button class="rounded center" on:click={copyURL}>
 				<Hero icon="Duplicate" />
 			</button>
 		</code>
@@ -91,29 +82,29 @@
 		<code class="apart">
 			font-family:
 
-			<button class="rounded" on:click={copyCSSFamilies}>
+			<button class="rounded center" on:click={copyCSSFamilies}>
 				<Hero icon="Duplicate" />
 			</button>
 		</code>
 	{/if}
 
-	<a href="https://github.com/zavbala/gtfont" target="_blank"> GitHub </a>
+	<a href="https://github.com/zavbala/gtfont" target="_blank"> GITHUB </a>
 </aside>
 
 <style>
 	aside {
-		height: 100vh;
-		padding: 0.7rem;
-		width: calc(1024px / 4);
-		position: fixed;
 		top: 0;
 		right: 0;
 		z-index: 20;
-		border-left: 1px solid gray;
-		background-color: var(--bg);
 		display: flex;
-		justify-content: space-between;
+		height: 100vh;
+		position: fixed;
+		padding: 0.7rem;
 		flex-direction: column;
+		width: calc(1024px / 4);
+		background-color: var(--bg);
+		border-left: 1px solid gray;
+		justify-content: space-between;
 	}
 
 	section {
@@ -132,28 +123,25 @@
 
 	a {
 		font-size: 1rem;
-		text-align: center;
-		border-radius: 5px;
-		border: 2px solid var(--thumb);
 		padding: 0.5rem;
+		border-radius: 5px;
+		text-align: center;
 		color: var(--thumb);
+		border: 2px solid var(--thumb);
 	}
 
 	a:hover {
 		background-color: var(--hover);
 	}
 
-	/* select {
-		border: 1px solid var(--border);
-		margin-bottom: 0.5rem;
-		padding: 0.7rem;
-		border-radius: 999px;
-	} */
-
 	code {
+		width: 100%;
+		padding: 0.7rem;
 		border-radius: 3px;
 		background-color: var(--code);
-		padding: 0.7rem;
-		width: 100%;
+	}
+
+	input[type='radio'] {
+		margin-right: 0.5rem;
 	}
 </style>

@@ -1,7 +1,6 @@
-import { writable } from 'svelte/store';
-import type { Writable } from 'svelte/store';
 import type { FamilyTree } from '$lib/types';
-// import { browser } from '$app/env';
+import type { Writable } from 'svelte/store';
+import { writable } from 'svelte/store';
 
 type Node = [string, number];
 
@@ -9,8 +8,6 @@ type FamilyStore = {
 	subscribe: Writable<FamilyTree>['subscribe'];
 	[fn: string]: (any) => void;
 };
-
-// const stored = browser && JSON.parse(window.localStorage.getItem('families') || JSON.stringify({}));
 
 const { subscribe, update } = writable({});
 

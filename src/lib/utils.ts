@@ -1,5 +1,5 @@
-import { STYLES, G_FONTS_API } from '$lib/constant';
-import type { FamilyTree, Style, Family, Item } from '$lib/types';
+import { G_FONTS_API, STYLES } from '$lib/constant';
+import type { Family, FamilyTree, Item, Style } from '$lib/types';
 
 export const formatStyle = (weight: string): Style => {
 	const array = weight.split('');

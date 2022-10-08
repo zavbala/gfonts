@@ -2,7 +2,7 @@
 	<title>Page not found</title>
 </svelte:head>
 
-<section class="center">
+<section class="center f-column">
 	<h1>(o^^)o</h1>
 	<span> Unfortunately, this page doesn't exist. </span>
 </section>

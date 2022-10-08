@@ -1,37 +1,16 @@
-<script context="module" lang="ts">
-	/** @type {import('@sveltejs/kit').Load} */
-
-	export async function load({ fetch, url }) {
-		const { searchParams } = url;
-		const query = searchParams.get('query');
-
-		const endpoint = 'api/fonts' + (query ? `?query=${query}` : '?page=1');
-
-		const response = await fetch(endpoint);
-		const data = await response.json();
-
-		return {
-			props: {
-				searching: (query && true) || false,
-				items: data['items']
-			}
-		};
-	}
-</script>
-
-<script>
-	import Card from '$lib/components/Card.svelte';
-	import { URI } from '$lib/constant';
-	import Controls from '$lib/components/Controls.svelte';
+<script lang="ts">
 	import { goto } from '$app/navigation';
+	import Card from '$lib/components/Card.svelte';
+	import Controls from '$lib/components/Controls.svelte';
+	import { URI } from '$lib/constant';
 	import { preview } from '$lib/stores/preview';
+	import type { Specimen } from '$lib/types';
 
-	let axisY;
 	let page = 2;
-	let infinity = [];
+	let axisY: number;
+	let infinity: Specimen[] = [];
 
-	export let items;
-	export let searching;
+	export let data: { items: Specimen[]; searching: boolean };
 
 	const fetcher = async () => {
 		const response = await fetch(URI + '/api/fonts' + `?page=${page}`);
@@ -52,8 +31,8 @@
 		}
 	}
 
-	$: if (!searching) {
-		items = [...items, ...infinity];
+	$: if (!data.searching) {
+		data.items = [...data.items, ...infinity];
 	}
 </script>
 
@@ -66,8 +45,8 @@
 <Controls />
 
 <section>
-	{#if items.length}
-		{#each items as specimen}
+	{#if data.items.length}
+		{#each data.items as specimen}
 			{#key specimen}
 				<Card {specimen} />
 			{/key}

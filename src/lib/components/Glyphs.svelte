@@ -11,20 +11,20 @@
 <style>
 	div {
 		display: grid;
-		grid-template-columns: repeat(10, 1fr);
-		margin-bottom: 2rem;
 		margin-top: 2rem;
+		margin-bottom: 2rem;
+		grid-template-columns: repeat(10, 1fr);
 	}
 
 	span {
-		grid-column: 1 span / 1 span;
 		padding: 1rem;
-		font-size: 2rem;
-		transition: all 0.2s;
-		font-family: var(--font-family);
 		display: flex;
+		font-size: 2rem;
 		align-items: center;
+		transition: all 0.2s;
 		justify-content: center;
+		grid-column: 1 span / 1 span;
+		font-family: var(--font-family);
 	}
 
 	@media screen and (max-width: 640px) {

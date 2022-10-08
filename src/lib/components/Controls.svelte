@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { preview } from '$lib/stores/preview';
-	import Wrapper from '$lib/components/Input.svelte';
-	import Hero from '$lib/components/Hero.svelte';
 	import { goto } from '$app/navigation';
+	import Hero from '$lib/components/Hero.svelte';
+	import Wrapper from '$lib/components/Input.svelte';
+	import { preview } from '$lib/stores/preview';
 	import _ from 'lodash';
 
-	let debounce;
+	let debounce: NodeJS.Timeout;
 
 	const handleSearch = (event: Event) => {
 		clearTimeout(debounce);
@@ -22,20 +22,22 @@
 
 <header class="apart">
 	<Wrapper className="sm-full-width">
-		<Hero slot="left" icon="Search" />
+		<button type="button" disabled slot="left" class="rounded center">
+			<Hero icon="Search" />
+		</button>
 
 		<input
+			type="text"
 			slot="main"
 			bind:value={$preview.query}
 			on:keyup={handleSearch}
-			type="text"
 			placeholder="Search Fonts"
 		/>
 
 		{#if $preview.query}
 			<button
-				class="rounded"
 				type="button"
+				class="rounded center"
 				on:click={() => {
 					preview.update((value) => ({ ...value, query: '' }));
 					goto('/');
@@ -58,7 +60,7 @@
 	</Wrapper>
 
 	<button
-		class="rounded sm-hidden"
+		class="rounded sm-hidden center"
 		type="button"
 		on:click={() => {
 			preview.set({
@@ -75,12 +77,12 @@
 
 <style>
 	header {
-		margin-bottom: 1rem;
-		position: sticky;
 		top: 0;
 		z-index: 10;
-		background-color: var(--bg);
 		padding: 0.7rem;
+		position: sticky;
+		margin-bottom: 1rem;
+		background-color: var(--bg);
 		border-bottom: 1px solid var(--border);
 	}
 </style>

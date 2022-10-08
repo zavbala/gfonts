@@ -1,9 +1,9 @@
 <script>
-	import '../app.css';
 	import { goto } from '$app/navigation';
 	import Hero from '$lib/components/Hero.svelte';
 	import Sidebar from '$lib/components/Sidebar.svelte';
 	import { settings, toggle } from '$lib/stores/settings';
+	import '../app.css';
 </script>
 
 <svelte:head>
@@ -17,14 +17,15 @@
 			<h1 on:click={() => goto('/')}>GTFont</h1>
 
 			<div id="actions">
-				<button on:click={() => toggle('isSidebarOpen')}> <Hero icon="Grid" /> </button>
-
-				<button on:click={() => toggle('darkMode')}>
+				<button class="center" on:click={() => toggle('darkMode')}>
 					{#if $settings.darkMode}
 						<Hero icon="Sun" />
 					{:else}
 						<Hero icon="Moon" />
 					{/if}
+				</button>
+				<button class="center" on:click={() => toggle('isSidebarOpen')}>
+					<Hero icon="Grid" />
 				</button>
 			</div>
 		</nav>
@@ -39,18 +40,18 @@
 
 <style>
 	main {
-		max-width: 1024px;
 		margin: auto;
 		display: grid;
-		grid-template-columns: repeat(12, 1fr);
+		max-width: 1024px;
 		transition: all 0.2s;
+		grid-template-columns: repeat(12, 1fr);
 	}
 
 	#actions {
 		display: flex;
 		align-items: center;
-		justify-content: space-between;
 		flex-direction: row;
+		justify-content: space-between;
 	}
 
 	div {
@@ -60,27 +61,21 @@
 
 	nav {
 		height: 15vh;
-		margin-bottom: 1rem;
 		display: flex;
 		align-items: center;
+		margin-bottom: 1rem;
 		justify-content: space-around;
 	}
 
 	button {
-		border-radius: 999px;
 		width: 2.5rem;
 		height: 2.5rem;
 		padding: 0.3rem;
 		transition: all 0.2s;
+		border-radius: 999px;
 	}
 
 	h1 {
 		cursor: pointer;
-	}
-
-	@media screen and (max-width: 1024px) {
-		/* nav {
-			justify-content: space-around;
-		} */
 	}
 </style>

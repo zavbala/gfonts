@@ -1,28 +1,13 @@
-<script context="module" lang="ts">
-	/** @type {import('@sveltejs/kit').Load} */
-
-	export async function load({ params, fetch }) {
-		const response = await fetch('/api/fonts/' + params.slug);
-
-		return {
-			status: response.status,
-			props: {
-				specimen: response.ok && (await response.json())
-			}
-		};
-	}
-</script>
-
 <script lang="ts">
-	import type { Specimen } from '$lib/types';
-	import { G_FONTS_API } from '$lib/constant';
-	import Styles from '$lib/components/Styles.svelte';
+	import { browser } from '$app/environment';
 	import Glyphs from '$lib/components/Glyphs.svelte';
+	import Styles from '$lib/components/Styles.svelte';
+	import { G_FONTS_API } from '$lib/constant';
+	import type { Specimen } from '$lib/types';
 	import { onDestroy, setContext } from 'svelte';
-	import { browser } from '$app/env';
 
-	export let specimen: Specimen;
-	const { family, category, fonts } = specimen;
+	export let data: { specimen: Specimen };
+	const { family, category, fonts } = data.specimen;
 
 	setContext('current', family);
 

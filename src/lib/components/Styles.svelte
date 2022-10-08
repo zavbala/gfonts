@@ -2,11 +2,9 @@
 	import Hero from '$lib/components/Hero.svelte';
 	import { family } from '$lib/stores/family';
 	import { formatStyle } from '$lib/utils';
-	import type { Font } from '$lib/types';
 	import { getContext } from 'svelte';
 
 	export let styles = {};
-
 	const current = getContext('current') as string;
 
 	const handleFamily = (event: any) => {

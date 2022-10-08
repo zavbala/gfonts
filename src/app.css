@@ -1,9 +1,6 @@
 :root {
 	--font-sans: 'Roboto';
 	--font-mono: 'Space Mono';
-	/* --malibu: #8ab4f8; */
-	/* --mine-shaft: #303030; */
-	/* --shark: #202124; */
 }
 
 * {
@@ -12,8 +9,8 @@
 }
 
 ::selection {
-	background-color: var(--thumb);
 	color: #fff;
+	background-color: var(--thumb);
 }
 
 body {
@@ -23,6 +20,7 @@ body {
 }
 
 a,
+svg,
 small,
 input,
 code {
@@ -58,10 +56,10 @@ a {
 }
 
 button,
-input,
-select {
-	appearance: none;
+select,
+input[type='text'] {
 	border: none;
+	appearance: none;
 	background-color: transparent;
 }
 
@@ -69,7 +67,12 @@ button:hover {
 	background-color: var(--hover);
 }
 
-input,
+button:disabled {
+	cursor: default;
+	background-color: transparent;
+}
+
+input[type='text'],
 button:focus {
 	outline: none;
 }
@@ -95,18 +98,9 @@ ul {
 	list-style: none;
 }
 
-input[type='checkbox'] {
-	/* background-color: blue; */
-	appearance: initial !important;
-	height: 10px;
-	width: 10px;
-	border-radius: 999px;
-}
-
 input[type='text'] {
 	caret-color: var(--thumb);
 	padding: 0.7rem;
-	/* outline: 1px solid blue; */
 }
 
 input[type='text']:focus::placeholder {

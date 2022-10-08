@@ -1,13 +1,10 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { G_FONTS_API } from '$lib/constant';
-	import type { Specimen } from '$lib/types';
 	import { preview } from '$lib/stores/preview';
-	// import { fade } from 'svelte/transition';
-	// import { settings } from '$lib/stores/settings';
+	import type { Specimen } from '$lib/types';
 
 	export let specimen: Specimen;
-
 	const { family, fonts } = specimen;
 
 	const source = `${G_FONTS_API}/css2?family=${family}&display=swap`;
@@ -43,26 +40,26 @@
 
 <style>
 	div {
-		grid-column: 1 span / 1 span;
-		border: 1px solid var(--border);
+		color: #fff;
 		padding: 1rem;
 		cursor: pointer;
-		color: #fff;
 		position: relative;
 		border-radius: 5px;
+		grid-column: 1 span / 1 span;
+		border: 1px solid var(--border);
 	}
 
 	span {
-		position: absolute;
 		top: 5%;
 		left: 5%;
 		font-size: 0.8rem;
+		position: absolute;
 	}
 
 	p {
-		font-family: var(--font-family);
-		font-size: var(--font-size);
 		word-break: break-word;
+		font-size: var(--font-size);
+		font-family: var(--font-family);
 	}
 
 	small,
@@ -72,9 +69,9 @@
 	}
 
 	small {
-		position: absolute;
-		bottom: 5%;
 		left: 5%;
+		bottom: 5%;
+		position: absolute;
 	}
 
 	div:hover {
