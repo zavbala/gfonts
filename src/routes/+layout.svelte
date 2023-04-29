@@ -1,7 +1,11 @@
 <script>
+	import { dev } from '$app/environment';
 	import Nav from '$lib/components/Nav.svelte';
 	import Sidebar from '$lib/components/Sidebar.svelte';
 	import { settings } from '$lib/stores/settings';
+	import { inject } from '@vercel/analytics';
+
+	inject({ mode: dev ? 'development' : 'production' });
 
 	import '../app.css';
 </script>
