@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import Hero from '$lib/components/Hero.svelte';
 	import { family } from '$lib/stores/family';
 	import { formatStyle } from '$lib/utils';
 	import { slide } from 'svelte/transition';
@@ -21,7 +20,7 @@
 	<li class="apart">
 		<span> {familyName} </span>
 		<button class="rounded center" id={String(index)} on:click={expandList}>
-			<Hero icon={expandable ? 'ChevronUp' : 'ChevronDown'} />
+			<span class="material-icons"> {expandable ? 'expand_less' : 'expand_more'} </span>
 		</button>
 	</li>
 
@@ -40,7 +39,7 @@
 						class="rounded center"
 						id={String(index) + ':' + familyName}
 					>
-						<Hero icon="Minus" />
+						<span class="material-icons"> remove_circle_outline </span>
 					</button>
 				</li>
 			{/each}

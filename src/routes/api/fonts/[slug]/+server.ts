@@ -1,15 +1,18 @@
-import Fonts from '$lib/data/Fonts.json';
-import type { RequestHandler } from '@sveltejs/kit';
+import { G_FONTS } from '$lib/constant';
 import { json } from '@sveltejs/kit';
 
-const entry = Fonts['familyMetadataList'];
+import type { Specimen } from '$lib/types';
+import type { RequestEvent } from '@sveltejs/kit';
 
-export function GET({ params }: RequestHandler) {
-	const { slug } = params;
+export async function GET({ params }: RequestEvent) {
+	const { slug } = params as { slug: string };
+
+	const external = await (await fetch(G_FONTS + '/metadata/fonts')).json();
+	const entry = external.familyMetadataList;
 
 	const splitByHyphen = slug.split('-');
 	const family = splitByHyphen.length > 1 ? splitByHyphen.join(' ') : slug;
-	const specimen = entry.find((font) => font.family === family);
+	const specimen = entry.find((font: Specimen) => font.family === family);
 
 	return json(specimen);
 }

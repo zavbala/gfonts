@@ -1,9 +1,9 @@
 <svelte:head>
-	<title>Page not found</title>
+	<title>Page not found - Google Fonts</title>
 </svelte:head>
 
 <section class="center f-column">
-	<h1>(o^^)o</h1>
+	<h1>(·.·)</h1>
 	<span> Unfortunately, this page doesn't exist. </span>
 </section>
 

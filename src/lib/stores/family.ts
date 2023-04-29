@@ -27,9 +27,7 @@ const createFamily = (): FamilyStore => {
 					};
 				}
 
-				return {
-					...value
-				};
+				return { ...value };
 			});
 		},
 

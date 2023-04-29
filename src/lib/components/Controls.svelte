@@ -1,8 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import Hero from '$lib/components/Hero.svelte';
 	import Wrapper from '$lib/components/Input.svelte';
-	import { preview } from '$lib/stores/preview';
+	import { preview, reset } from '$lib/stores/preview';
 	import _ from 'lodash';
 
 	let debounce: NodeJS.Timeout;
@@ -18,71 +17,75 @@
 			goto('/');
 		}
 	};
+
+	const reachSelfElement = (element: WheelEvent) => {
+		//
+	};
 </script>
 
+<svelte:window on:wheel={reachSelfElement} />
+
 <header class="apart">
-	<Wrapper className="sm-full-width">
+	<Wrapper className="sm-full-width border-r border-none">
 		<button type="button" disabled slot="left" class="rounded center">
-			<Hero icon="Search" />
+			<span class="material-icons"> search </span>
 		</button>
 
 		<input
 			type="text"
 			slot="main"
-			bind:value={$preview.query}
 			on:keyup={handleSearch}
 			placeholder="Search Fonts"
+			bind:value={$preview.query}
 		/>
 
-		{#if $preview.query}
-			<button
-				type="button"
-				class="rounded center"
-				on:click={() => {
-					preview.update((value) => ({ ...value, query: '' }));
-					goto('/');
-				}}
-			>
-				<Hero icon="X" />
-			</button>
-		{:else}
-			<div />
-		{/if}
+		<button
+			type="button"
+			class="rounded center {$preview.query ? 'opacity-1' : 'opacity-0'}"
+			on:click={() => {
+				preview.update((value) => ({ ...value, query: '' }));
+				goto('/');
+			}}
+		>
+			<span class="material-icons"> close </span>
+		</button>
 	</Wrapper>
 
-	<Wrapper className="sm-hidden">
+	<Wrapper className="sm-hidden border-r">
 		<input slot="main" type="text" placeholder="Type Something" bind:value={$preview.customText} />
 	</Wrapper>
 
 	<Wrapper className="sm-hidden">
 		<small slot="left"> {$preview.fontSize}px </small>
-		<input slot="main" type="range" bind:value={$preview.fontSize} min="25" max="50" />
-	</Wrapper>
 
-	<button
-		class="rounded sm-hidden center"
-		type="button"
-		on:click={() => {
-			preview.set({
-				customText: '',
-				fontSize: 32,
-				query: ''
-			});
-			goto('/');
-		}}
-	>
-		<Hero icon="Refresh" />
-	</button>
+		<input slot="main" type="range" bind:value={$preview.fontSize} min="25" max="50" />
+
+		<button
+			type="button"
+			class="rounded sm-hidden center"
+			on:click={() => {
+				reset(), goto('/');
+			}}
+		>
+			<span class="material-icons"> refresh </span>
+		</button>
+	</Wrapper>
 </header>
 
 <style>
 	header {
 		top: 0;
 		z-index: 10;
-		padding: 0.7rem;
 		position: sticky;
 		margin-bottom: 1rem;
+		border-radius: 999px;
 		background-color: var(--bg);
-		border-bottom: 1px solid var(--border);
+		border: 1px solid var(--border);
+	}
+
+	@media screen and (max-width: 820px) {
+		header {
+			margin: 0 0.7rem;
+		}
 	}
 </style>

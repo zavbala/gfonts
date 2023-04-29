@@ -1,6 +1,6 @@
 <script lang="ts">
-	import Hero from '$lib/components/Hero.svelte';
 	import { family } from '$lib/stores/family';
+	import { settings } from '$lib/stores/settings';
 	import { formatStyle } from '$lib/utils';
 	import { getContext } from 'svelte';
 
@@ -10,6 +10,10 @@
 	const handleFamily = (event: any) => {
 		const { name } = event.target;
 		family.add([current, name]);
+
+		if (!$settings.isSidebarOpen) {
+			settings.update((values) => ({ ...values, isSidebarOpen: true }));
+		}
 	};
 </script>
 
@@ -22,8 +26,8 @@
 			<span>{style.join(' ')}</span>
 
 			{#if !available}
-				<button name={weight} on:click={handleFamily}>
-					<Hero icon="Plus" />
+				<button name={weight} on:click={handleFamily} class="around">
+					<span class="material-icons"> add_circle_outline </span>
 					<small> Select this style </small>
 				</button>
 			{/if}
@@ -33,16 +37,16 @@
 
 <style>
 	section {
-		display: grid;
-		grid-template-columns: repeat(2, 1fr);
 		gap: 2%;
+		display: grid;
 		margin: 7rem 0;
+		grid-template-columns: repeat(2, 1fr);
 	}
 
 	div {
 		padding: 1rem;
-		border-bottom: 1px solid var(--border);
 		grid-column: 1 span / 1 span;
+		border-bottom: 1px solid var(--border);
 	}
 
 	div:hover > button {
@@ -54,26 +58,23 @@
 	}
 
 	button {
-		padding: 0.5rem 0.3rem;
-		border-radius: 3px;
-		display: flex;
-		align-items: center;
-		justify-content: space-around;
+		opacity: 0;
 		width: 10rem;
 		height: 2rem;
-		opacity: 0;
+		border-radius: 3px;
 		transition: all 0.2s;
+		padding: 0.5rem 0.3rem;
 	}
 
 	small {
 		font-weight: 500;
 	}
 
-	@media screen and (max-width: 768px) {
+	@media screen and (max-width: 820px) {
 		section {
-			grid-template-columns: repeat(1, 1fr);
 			padding: 1rem;
 			margin: 1rem 0;
+			grid-template-columns: repeat(1, 1fr);
 		}
 
 		span {

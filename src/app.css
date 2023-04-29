@@ -4,8 +4,8 @@
 }
 
 * {
-	/* outline: 1px solid red; */
 	box-sizing: border-box;
+	/* outline: 1px solid red; */
 }
 
 ::selection {
@@ -19,6 +19,10 @@ body {
 	background-color: var(--bg);
 }
 
+.material-icons {
+	font-size: 24px;
+}
+
 a,
 svg,
 small,
@@ -27,32 +31,32 @@ code {
 	display: block;
 }
 
-small,
-button,
-select,
-span,
-input,
-code,
+p,
 li,
 h1,
 h2,
 h3,
 h4,
 h5,
-p {
-	font-family: var(--font-sans), sans-serif;
+code,
+span,
+small,
+input,
+button,
+select {
 	color: var(--color);
+	font-family: var(--font-sans), sans-serif;
 }
 
 code {
-	font-family: var(--font-mono), monospace;
 	font-size: 0.8rem;
+	font-family: var(--font-mono), monospace;
 }
 
 a {
-	font-family: var(--font-mono);
 	color: var(--thumb);
 	text-decoration: none;
+	font-family: var(--font-mono);
 }
 
 button,
@@ -134,9 +138,13 @@ input[type='range']::-moz-range-thumb {
 	border: none;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 450px) {
 	.sm-hidden {
 		display: none !important;
+	}
+
+	.border-none {
+		border: none !important;
 	}
 
 	.sm-full-width {
@@ -183,8 +191,20 @@ input[type='range']::-moz-range-thumb {
 
 /* Utils  */
 
+.flex {
+	display: flex;
+}
+
+.f-row {
+	flex-direction: row;
+}
+
 .f-column {
 	flex-direction: column;
+}
+
+.align-start {
+	align-items: start;
 }
 
 .text-center {
@@ -207,10 +227,67 @@ input[type='range']::-moz-range-thumb {
 	display: none;
 }
 
+.margin-left {
+	margin-right: 0.5rem;
+}
+
 .col-10 {
 	grid-column: 10 span / 10 span;
 }
 
 .col-12 {
 	grid-column: 12 span / 12 span;
+}
+
+.pd-1 {
+	padding: 1rem;
+}
+
+.gap-y-1 {
+	gap: 1rem;
+}
+
+.my-1 {
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+}
+
+.gap-x-1 {
+	gap: 1rem;
+}
+
+.grow {
+	flex-grow: 1;
+}
+
+.grid-1 {
+	grid-template-columns: repeat(1, 1fr);
+}
+
+.grid-3 {
+	grid-template-columns: repeat(3, 1fr);
+}
+
+.col-3 {
+	grid-column: 3 span / 3 span;
+}
+
+.col-1 {
+	grid-column: 1 span / 1 span;
+}
+
+.border-r {
+	border-right: 1px solid var(--border);
+}
+
+.border-l {
+	border-left: 1px solid var(--border);
+}
+
+.opacity-0 {
+	opacity: 0;
+}
+
+.opacity-1 {
+	opacity: 1;
 }

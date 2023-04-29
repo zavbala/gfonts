@@ -2,28 +2,21 @@
 	export let className = '';
 </script>
 
-<div class={`wrapper around ${className}`}>
-	<div id="left">
-		<slot name="left" />
-	</div>
-
+<div class={`around ${className}`}>
+	<slot name="left" />
 	<slot name="main" />
-
-	<div id="right">
-		<slot />
-	</div>
+	<slot />
 </div>
 
 <style>
-	.wrapper {
-		padding: 0 0.5rem;
+	div {
+		flex: 1;
+		padding: 0.6rem;
 	}
 
-	#left {
-		margin-right: 0.4rem;
-	}
-
-	#right {
-		margin-left: 0.2rem;
+	@media screen and (max-width: 820px) {
+		div {
+			padding: 0.2rem;
+		}
 	}
 </style>

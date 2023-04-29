@@ -1,25 +1,25 @@
-import Fonts from '$lib/data/Fonts.json';
-import type { RequestHandler } from '@sveltejs/kit';
+import { G_FONTS } from '$lib/constant';
 import { json } from '@sveltejs/kit';
 
-const entry = Fonts['familyMetadataList'];
-const OFFSET = 12;
+import type { Specimen } from '$lib/types';
+import type { RequestEvent } from '@sveltejs/kit';
 
-export function GET({ url }: RequestHandler) {
+const OFFSET = 24;
+
+export async function GET({ url }: RequestEvent) {
 	const { searchParams } = url;
 	const query = searchParams.get('query');
 	const page = searchParams.get('page');
 
-	let items = entry;
+	const external = await (await fetch(G_FONTS + '/metadata/fonts')).json();
+	let items = external.familyMetadataList;
 
-	if (query) {
-		items = entry.filter((value) => value.family.includes(query));
-	}
+	if (query) items = items.filter((value: Specimen) => value.family.includes(query));
 
 	if (page) {
 		const bounds = [OFFSET * (Number(page) - 1), OFFSET * Number(page)];
-		items = entry.slice(...bounds);
+		items = items.slice(...bounds);
 	}
 
-	return json({ items });
+	return json({ items, total: page ? external.familyMetadataList.length : items.length });
 }

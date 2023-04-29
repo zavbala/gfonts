@@ -2,6 +2,7 @@
 	import { goto } from '$app/navigation';
 	import { G_FONTS_API } from '$lib/constant';
 	import { preview } from '$lib/stores/preview';
+
 	import type { Specimen } from '$lib/types';
 
 	export let specimen: Specimen;
@@ -18,18 +19,16 @@
 	<link href={source} rel="stylesheet" />
 </svelte:head>
 
+<!-- svelte-ignore a11y-click-events-have-key-events -->
+
 <div
-	style="--font-family: {family}; --font-size: {$preview.fontSize}px;"
 	on:click={() => goto(`/specimen/${about}`)}
+	style="--font-family: {family}; --font-size: {$preview.fontSize}px;"
 >
 	<span> {family} </span>
 
-	<p>
-		{#if $preview.customText}
-			{$preview.customText}
-		{:else}
-			{pangram}
-		{/if}
+	<p class="grow">
+		{$preview.customText ? $preview.customText : pangram}
 	</p>
 
 	<small>
@@ -43,17 +42,13 @@
 		color: #fff;
 		padding: 1rem;
 		cursor: pointer;
-		position: relative;
 		border-radius: 5px;
 		grid-column: 1 span / 1 span;
 		border: 1px solid var(--border);
 	}
 
 	span {
-		top: 5%;
-		left: 5%;
 		font-size: 0.8rem;
-		position: absolute;
 	}
 
 	p {
@@ -66,12 +61,6 @@
 	span {
 		color: gray;
 		transition: all 0.2s;
-	}
-
-	small {
-		left: 5%;
-		bottom: 5%;
-		position: absolute;
 	}
 
 	div:hover {
