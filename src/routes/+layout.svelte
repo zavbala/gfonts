@@ -5,9 +5,9 @@
 	import { settings } from '$lib/stores/settings';
 	import { inject } from '@vercel/analytics';
 
-	inject({ mode: dev ? 'development' : 'production' });
-
 	import '../app.css';
+
+	inject({ mode: dev ? 'development' : 'production' });
 </script>
 
 <svelte:head>
