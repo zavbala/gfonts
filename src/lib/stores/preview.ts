@@ -1,12 +1,12 @@
 import { writable } from 'svelte/store';
 
-const initValues = {
+export const initValues = {
 	query: '',
-	fontSize: 32,
+	fontSize: 40,
 	customText: '',
 	viewMode: 'grid'
 };
 
-export const preview = writable(initValues);
+export const preview = writable({ ...initValues });
 
-export const reset = () => preview.set(initValues);
+export const reset = () => preview.set({ ...initValues });

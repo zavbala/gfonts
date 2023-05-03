@@ -5,8 +5,8 @@
 	import { slide } from 'svelte/transition';
 
 	export let index: number;
-	export let familyName: string;
 	export let styles: String[];
+	export let familyName: string;
 	export let expandable = false;
 	export let expandList: (event: Event) => void;
 
@@ -19,7 +19,7 @@
 <ul>
 	<li class="apart">
 		<span> {familyName} </span>
-		<button class="rounded center" id={String(index)} on:click={expandList}>
+		<button class="center action" id={String(index)} on:click={expandList}>
 			<span class="material-icons"> {expandable ? 'expand_less' : 'expand_more'} </span>
 		</button>
 	</li>
@@ -34,11 +34,7 @@
 				<li class="apart">
 					<small> {formatStyle(String(style)).join(' ')} </small>
 
-					<button
-						on:click={handleItem}
-						class="rounded center"
-						id={String(index) + ':' + familyName}
-					>
+					<button on:click={handleItem} class="center action" id={String(index) + ':' + familyName}>
 						<span class="material-icons"> remove_circle_outline </span>
 					</button>
 				</li>
@@ -52,6 +48,7 @@
 				>
 					Add more styles
 				</button>
+
 				<button class="btn" on:click={() => family.restore(familyName)}> Remove all </button>
 			</li>
 		</div>

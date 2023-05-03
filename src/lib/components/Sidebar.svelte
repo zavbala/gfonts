@@ -37,7 +37,7 @@
 			{Object.keys($family).length > 1 ? 'Families' : 'Family'}
 		</h3>
 
-		<button class="rounded center" on:click={() => toggle('isSidebarOpen')}>
+		<button class="action center" on:click={() => toggle('isSidebarOpen')}>
 			<i class="material-icons"> close </i>
 		</button>
 	</div>
@@ -78,14 +78,14 @@
 				<code class="apart">
 					{embed === 'HTML' ? '<link>' : '@import'}
 
-					<button class="rounded center" on:click={copyURL}>
+					<button class="center action" on:click={copyURL}>
 						<i class="material-icons"> content_copy </i>
 					</button>
 				</code>
 
 				<code class="apart">
 					font-family:
-					<button class="rounded center" on:click={copyCSSFamilies}>
+					<button class="center action" on:click={copyCSSFamilies}>
 						<i class="material-icons"> content_copy </i>
 					</button>
 				</code>
@@ -94,7 +94,9 @@
 	{/if}
 
 	<div class="pd-1">
-		<a href="https://github.com/zavbala/gtfont" target="_blank"> GITHUB </a>
+		<a class="btn-primary center" href="https://github.com/zavbala/gtfonts" target="_blank">
+			GITHUB
+		</a>
 	</div>
 </aside>
 
@@ -119,15 +121,6 @@
 
 	span {
 		font-size: 1.3rem;
-	}
-
-	a {
-		font-size: 1rem;
-		padding: 0.5rem;
-		border-radius: 5px;
-		text-align: center;
-		color: var(--thumb);
-		border: 2px solid var(--thumb);
 	}
 
 	h3 {

@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import Card from '$lib/components/Card.svelte';
-	import Controls from '$lib/components/Controls.svelte';
 	import { URI } from '$lib/constant';
 	import { preview } from '$lib/stores/preview';
 
@@ -39,28 +38,21 @@
 	$: if (!data.searching) data.items = [...data.items, ...infinity];
 </script>
 
-<svelte:head>
-	<title>Browse Fonts - Google Fonts</title>
-</svelte:head>
-
 <svelte:window bind:scrollY={axisY} />
-
-<Controls />
 
 <div id="top" class="sm-hidden apart my-1">
 	<small> {data.total} of {data.total} families </small>
 
-	<div>
-		<button
-			title={$preview.viewMode === 'grid' ? 'List' : 'Grid'}
-			type="button"
-			on:click={handleView}
-		>
-			<span class="material-icons">
-				{$preview.viewMode === 'grid' ? 'view_list' : 'view_module'}
-			</span>
-		</button>
-	</div>
+	<button
+		type="button"
+		on:click={handleView}
+		class="md-hidden center action"
+		title={$preview.viewMode === 'grid' ? 'List' : 'Grid'}
+	>
+		<span class="material-icons">
+			{$preview.viewMode === 'grid' ? 'view_list' : 'view_module'}
+		</span>
+	</button>
 </div>
 
 {#if data.items.length}
@@ -75,6 +67,7 @@
 	<div class="f-column center">
 		<h1>(·_·)</h1>
 		<button
+			class="btn-primary"
 			on:click={() => {
 				preview.update((value) => ({ ...value, query: '' }));
 				goto('/');
@@ -92,14 +85,6 @@
 
 	h1 {
 		font-size: 7rem;
-	}
-
-	button {
-		padding: 0.4rem;
-		font-weight: 500;
-		border-radius: 5px;
-		color: var(--thumb);
-		border: 1px solid var(--thumb);
 	}
 
 	@media screen and (max-width: 820px) {
