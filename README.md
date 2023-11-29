@@ -1,1 +1,1 @@
-![Screenshot](https://user-images.githubusercontent.com/95885060/235530925-e05d0b17-303f-44ac-93a7-40bfc90103b5.png)
+![screenshot](https://github.com/zavbala/gfonts/assets/95885060/e6eff8e2-9613-4c27-96bb-4a9f6f3ada33)
